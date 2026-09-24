@@ -634,8 +634,9 @@
     background:var(--navy);color:var(--white);padding:13px 22px;border-radius:10px;
     font-size:14px;box-shadow:var(--shadow);transition:transform .25s ease;z-index:100;
     max-width:90vw;text-align:center;
+    visibility:hidden;
   }
-  .toast.show{transform:translate(-50%,0);}
+  .toast.show{transform:translate(-50%,0);visibility:visible;}
 
   /* ==========================================================================
      SCROLL PROGRESS BAR — thin bar under the header, width = % scrolled
