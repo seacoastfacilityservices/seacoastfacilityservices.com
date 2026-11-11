@@ -523,6 +523,10 @@
     .hero-actions{display:none;}
     body{padding-bottom:calc(68px + env(safe-area-inset-bottom));}
     body.menu-open .action-bar{display:none;}
+    /* both bars slide away while scrolling down, back when scrolling up (see section 21) */
+    .site-header, .action-bar{transition:transform .25s ease;}
+    body.chrome-hidden .site-header{transform:translateY(-100%);}
+    body.chrome-hidden .action-bar{transform:translateY(100%);}
     .section{padding:60px 0;}
   }
 
@@ -743,7 +747,7 @@
         <div class="sf-total-row">
           <div>
             <p class="sf-total-label">Your estimate</p>
-            <p class="sf-total num" id="heroTotal" aria-live="polite">$40.00<small>one time</small></p>
+            <p class="sf-total num" id="heroTotal" aria-live="polite">$75.00<small>one time</small></p>
             <p class="sf-why" id="heroWhy"></p>
           </div>
           <a href="/#quote" class="btn btn-primary" id="carryLink">See the full breakdown</a>
@@ -780,12 +784,13 @@
    The price list in section 7 and the discount badges read from here too.
    ============================================================================ */
 const PRICE = {
-  pane:      2.50,   // standard clean, one side, per pane
+  pane:      3.00,   // standard clean, one side, per pane
   hardWater: 20.00,  // chemical treatment / scraping, per pane
   doorMult:  2,      // a door side counts as this many standard panes
   screen:    5.00,   // removal, clean, re-hang, each
   track:     5.00,   // track and channel debris, per window
-  jobMin:    40.00,  // every visit, regardless of pane count
+  jobMin:    50.00,  // minimum for a visit on any recurring schedule
+  jobMinOneTime: 75.00,   // minimum for a one-time job (the dashboard has one minimum: add this there too)
   firstPct:  50      // first-visit surcharge %, applied to the standard clean only
 };
 
@@ -809,7 +814,7 @@ const QUOTE_SMS   = '+16035839928';
 const DEFAULTS = {
   pieces: 6, doors: 1, sides: 2,          // sides: 1 = outside only, 2 = inside and outside
   hwPanes: 0, hwDoors: 0, screens: 0, tracks: 0,
-  freq: 'One-time', first: false
+  freq: 'One-time', first: true           // most website visitors are a first visit, so the box starts ticked
 };
 
 /* ============================================================================
@@ -822,13 +827,16 @@ const DEFAULTS = {
    outside". Billable panes = pieces x sides — the same per-pane, per-side
    pricing as before; the tool just does the doubling for them.
 
-   priceQuote() below is the dashboard's pricing engine, unchanged:
+   priceQuote() below is the dashboard's pricing engine, with one difference
+   (the first-visit rule, flagged below):
      - a door bills as two standard panes (per side)
      - the recurring discount comes off the standard clean only
-     - the first-visit surcharge applies after that discount, and is waived
-       entirely once the account is recurring
+     - the first-visit surcharge applies to the standard clean, and is waived
+       only on schedules that earn a discount (weekly, every 2 weeks, monthly).
+       NOTE: the dashboard waives it on ANY recurring schedule. Change it there too.
      - hard water and add-ons are never discounted or surcharged
-     - the job minimum is the floor for the whole visit
+     - the job minimum is the floor for the whole visit ($50 recurring,
+       $75 one time; the dashboard has a single minimum, so update it there)
    ============================================================================ */
 const Q = Object.assign({}, DEFAULTS);
 
@@ -853,8 +861,9 @@ function priceQuote(q){
   const discountAmt = stdSubtotal * disc;
   const afterDisc   = stdSubtotal - discountAmt;
 
-  const surchargeWaived = q.first && recurring && stdSubtotal > 0;
-  const surchargeAmt = (q.first && !recurring) ? afterDisc * (PRICE.firstPct / 100) : 0;
+  const waives = disc > 0;                 // only schedules that earn a discount (weekly, every 2 weeks, monthly) waive it
+  const surchargeWaived = q.first && waives && stdSubtotal > 0;
+  const surchargeAmt = (q.first && !waives) ? afterDisc * (PRICE.firstPct / 100) : 0;
   const stdFinal = afterDisc + surchargeAmt;
 
   const hwPanesCost = q.hwPanes * PRICE.hardWater;
@@ -867,19 +876,20 @@ function priceQuote(q){
 
   const items = q.stdPanes + q.stdDoors + q.hwPanes + q.hwDoors + q.screens + q.tracks;
   const preMin = stdFinal + hwSubtotal + addons;
-  const minApplied = items > 0 && preMin < PRICE.jobMin;
-  const total = items > 0 ? Math.max(preMin, PRICE.jobMin) : 0;
+  const minimum = recurring ? PRICE.jobMin : PRICE.jobMinOneTime;       // one-time jobs have a higher floor
+  const minApplied = items > 0 && preMin < minimum;
+  const total = items > 0 ? Math.max(preMin, minimum) : 0;
 
   return {
     stdPanesCost, stdDoorsCost, stdSubtotal, discountAmt, surchargeAmt, surchargeWaived, recurring,
-    hwSubtotal, addons, screensCost, tracksCost, items, minApplied, total, disc
+    hwSubtotal, addons, screensCost, tracksCost, items, minApplied, minimum, total, disc
   };
 }
 
 function money(n){
   return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
-function shortMoney(n){            // $5 instead of $5.00, but $2.50 stays $2.50
+function shortMoney(n){            // $5 instead of $5.00, but $7.50 stays $7.50
   return Number.isInteger(n) ? '$' + n : money(n);
 }
 function plural(n, one, many){ return n + ' ' + (n === 1 ? one : many); }
@@ -1030,7 +1040,7 @@ function render(){
   const why = document.getElementById('heroWhy');
   why.className = 'sf-why';
   if (!r.items)              why.textContent = '';
-  else if (r.minApplied)     why.textContent = shortMoney(PRICE.jobMin) + ' visit minimum applies.';
+  else if (r.minApplied)     why.textContent = shortMoney(r.minimum) + (r.recurring ? ' visit minimum applies.' : ' one-time minimum applies.');
   else if (r.discountAmt > 0){ why.textContent = 'Includes your ' + DISCOUNTS[Q.freq] + '% recurring discount.'; why.className = 'sf-why is-saving'; }
   else if (r.surchargeAmt > 0) why.textContent = 'Includes the first-visit charge.';
   else                       why.textContent = plural(b.stdPanes, 'pane', 'panes') + ' at ' + shortMoney(PRICE.pane) + (b.stdDoors ? ', ' + plural(b.stdDoors, 'door side', 'door sides') + ' at ' + shortMoney(PRICE.pane * PRICE.doorMult) : '') + '.';
@@ -1077,6 +1087,7 @@ const mobileMenu = document.getElementById('mobileMenu');
 function setMenu(open){
   mobileMenu.hidden = !open;
   navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  if (open) document.body.classList.remove('chrome-hidden');
   document.body.classList.toggle('menu-open', open);
   document.body.style.overflow = open ? 'hidden' : '';
 }
@@ -1086,6 +1097,32 @@ document.addEventListener('keydown', function(e){
   if (e.key === 'Escape' && !mobileMenu.hidden){ setMenu(false); navToggle.focus(); }
 });
 window.addEventListener('resize', function(){ if (window.innerWidth > 940 && !mobileMenu.hidden) setMenu(false); });
+
+/* On phones, the top bar and the bottom Call / Text / My estimate bar slide
+   out of the way while the visitor scrolls down, and come back the moment
+   they scroll up (or reach the top). The CSS that moves them only applies
+   at phone widths, so this does nothing on tablets and desktops. */
+(function(){
+  let lastY = Math.max(0, window.scrollY), ticking = false;
+  function setHidden(hidden){ document.body.classList.toggle('chrome-hidden', hidden); }
+  function update(){
+    ticking = false;
+    const maxY = document.documentElement.scrollHeight - window.innerHeight;
+    const y = Math.min(Math.max(0, window.scrollY), Math.max(0, maxY));   // ignore rubber-band overscroll
+    if (!mobileMenu.hidden || y < 80) setHidden(false);
+    else if (y > lastY + 6) setHidden(true);
+    else if (y < lastY - 6) setHidden(false);
+    else return;                                                          // tiny jitters change nothing
+    lastY = y;
+  }
+  window.addEventListener('scroll', function(){
+    if (!ticking){ ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  // keyboard users tabbing into either bar bring it back
+  document.addEventListener('focusin', function(e){
+    if (e.target.closest && e.target.closest('.site-header, .action-bar')) setHidden(false);
+  });
+})();
 
 /* Theme: the attribute is set in <head> before first paint; this handles clicks. */
 document.querySelectorAll('[data-theme-toggle]').forEach(function(btn){

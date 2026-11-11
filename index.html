@@ -609,6 +609,10 @@
     .hero-actions{display:none;}
     body{padding-bottom:calc(68px + env(safe-area-inset-bottom));}
     body.menu-open .action-bar{display:none;}
+    /* both bars slide away while scrolling down, back when scrolling up (see section 21) */
+    .site-header, .action-bar{transition:transform .25s ease;}
+    body.chrome-hidden .site-header{transform:translateY(-100%);}
+    body.chrome-hidden .action-bar{transform:translateY(100%);}
     .section{padding:60px 0;}
   }
 
@@ -667,9 +671,9 @@
     "name": "Commercial window cleaning services",
     "itemListElement": [
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Standard window cleaning" },
-        "priceSpecification": { "@type": "UnitPriceSpecification", "price": "2.50", "priceCurrency": "USD", "unitText": "pane, per side" } },
+        "priceSpecification": { "@type": "UnitPriceSpecification", "price": "3.00", "priceCurrency": "USD", "unitText": "pane, per side" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Glass door cleaning" },
-        "priceSpecification": { "@type": "UnitPriceSpecification", "price": "5.00", "priceCurrency": "USD", "unitText": "door, per side" } },
+        "priceSpecification": { "@type": "UnitPriceSpecification", "price": "6.00", "priceCurrency": "USD", "unitText": "door, per side" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Hard water and mineral stain restoration" },
         "priceSpecification": { "@type": "UnitPriceSpecification", "price": "20.00", "priceCurrency": "USD", "unitText": "pane" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Screen cleaning" },
@@ -690,7 +694,7 @@
       "name": "How much does commercial window cleaning cost in Exeter, NH?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Seacoast Facility Services charges $2.50 per pane, per side, for standard cleaning and $5 per side for glass doors, with a $40 minimum per visit. A small storefront with 6 pieces of glass and 1 door, cleaned inside and outside, comes to $40. Weekly, every-2-week and monthly schedules take 20%, 15% and 10% off the standard clean."
+        "text": "Seacoast Facility Services charges $3 per pane, per side, for standard cleaning and $6 per side for glass doors, with a $50 minimum per visit on a recurring schedule and a $75 minimum for one-time jobs. A small storefront with 6 pieces of glass and 1 door, cleaned inside and outside, works out to $48, so the minimum applies: $50 per visit on a recurring schedule, or $75 one time. Weekly, every-2-week and monthly schedules take 20%, 15% and 10% off the standard clean."
       }
     },
     {
@@ -698,7 +702,7 @@
       "name": "How is my price calculated?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Standard cleaning is priced per pane. A pane is one piece of glass in a frame, and each side is priced separately, so a piece of glass cleaned inside and outside counts as two panes. Glass doors are priced at double a pane, per side. Hard-water or mineral staining is priced separately because it needs chemical treatment and scraping. Recurring service gets a discount off the standard clean, and every visit has a $40 minimum. The estimate tool on this page uses this exact math."
+        "text": "Standard cleaning is priced per pane. A pane is one piece of glass in a frame, and each side is priced separately, so a piece of glass cleaned inside and outside counts as two panes. Glass doors are priced at double a pane, per side. Hard-water or mineral staining is priced separately because it needs chemical treatment and scraping. Recurring service gets a discount off the standard clean, recurring visits have a $50 minimum, and one-time jobs have a $75 minimum. The estimate tool on this page uses this exact math."
       }
     },
     {
@@ -714,7 +718,7 @@
       "name": "Why is there a first-visit charge?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A first visit usually takes extra time to bring everything up to a clean baseline. That charge is waived automatically when you sign up for recurring service, and the estimate tool reflects that too."
+        "text": "A first visit usually takes extra time to bring everything up to a clean baseline. That charge is waived automatically when you start a weekly, every-2-week or monthly schedule, and the estimate tool reflects that too."
       }
     },
     {
@@ -926,7 +930,7 @@
         <div class="sf-total-row">
           <div>
             <p class="sf-total-label">Your estimate</p>
-            <p class="sf-total num" id="heroTotal" aria-live="polite">$40.00<small>one time</small></p>
+            <p class="sf-total num" id="heroTotal" aria-live="polite">$75.00<small>one time</small></p>
             <p class="sf-why" id="heroWhy"></p>
           </div>
           <a href="#quote" class="btn btn-primary">See the breakdown</a>
@@ -975,12 +979,12 @@
       <ul class="price-list">
         <li>
           <h3>Standard window cleaning</h3>
-          <span class="price"><span data-price="pane">$2.50</span> <small>per pane</small></span>
+          <span class="price"><span data-price="pane">$3</span> <small>per pane</small></span>
           <p>Hand-cleaned, streak-free glass. Sills and frames are wiped down with every clean at no extra charge.</p>
         </li>
         <li>
           <h3>Glass doors</h3>
-          <span class="price"><span data-price="door">$5</span> <small>per side</small></span>
+          <span class="price"><span data-price="door">$6</span> <small>per side</small></span>
           <p>Doors take more handling and more fingerprints, so each one counts as two panes.</p>
         </li>
         <li>
@@ -1017,8 +1021,8 @@
           </tbody>
         </table>
         <p>Discounts apply to the standard clean. Quarterly, twice-a-year and yearly schedules are available at the standard rate.</p>
-        <p>A first visit to a property adds <span data-price="firstPct">50%</span> to the standard clean. That charge is waived when you sign up for any recurring schedule.</p>
-        <p>Every visit has a <span data-price="jobMin">$40</span> minimum.</p>
+        <p>A first visit to a property adds <span data-price="firstPct">50%</span> to the standard clean. That charge is waived when you start a weekly, every-2-week or monthly schedule.</p>
+        <p>Recurring visits have a <span data-price="jobMin">$50</span> minimum. One-time jobs have a <span data-price="jobMinOneTime">$75</span> minimum.</p>
         <a href="#quote" class="btn btn-outline btn-block">Price my windows</a>
       </aside>
     </div>
@@ -1158,15 +1162,15 @@
         </fieldset>
 
         <label class="q-check">
-          <input type="checkbox" id="firstVisit" data-field="first">
+          <input type="checkbox" id="firstVisit" data-field="first" checked>
           <span>This would be our first visit to this property
-            <small class="q-help" style="margin-top:2px;">First-visit pricing is waived automatically on any recurring schedule.</small></span>
+            <small class="q-help" style="margin-top:2px;">The first-visit charge is waived on weekly, every-2-week and monthly schedules.</small></span>
         </label>
       </form>
 
       <div class="quote-summary" id="quoteSummary">
         <p class="estimate-label">Your estimate</p>
-        <p class="quote-total" id="quoteTotal" aria-live="polite">$40<small>.00</small></p>
+        <p class="quote-total" id="quoteTotal" aria-live="polite">$75<small>.00</small></p>
         <ul class="quote-breakdown" id="quoteBreakdown"></ul>
         <p class="q-nudge" id="quoteNudge" hidden></p>
         <p class="quote-note">
@@ -1242,11 +1246,11 @@
            PRICING CONSTANTS, update the numbers in this sentence too. -->
       <details>
         <summary><h3>How much does commercial window cleaning cost in Exeter, NH?</h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></summary>
-        <p>Seacoast Facility Services charges $2.50 per pane, per side, for standard cleaning and $5 per side for glass doors, with a $40 minimum per visit. A small storefront with 6 pieces of glass and 1 door, cleaned inside and outside, comes to $40. Weekly, every-2-week and monthly schedules take 20%, 15% and 10% off the standard clean.</p>
+        <p>Seacoast Facility Services charges $3 per pane, per side, for standard cleaning and $6 per side for glass doors, with a $50 minimum per visit on a recurring schedule and a $75 minimum for one-time jobs. A small storefront with 6 pieces of glass and 1 door, cleaned inside and outside, works out to $48, so the minimum applies: $50 per visit on a recurring schedule, or $75 one time. Weekly, every-2-week and monthly schedules take 20%, 15% and 10% off the standard clean.</p>
       </details>
       <details>
         <summary><h3>How is my price calculated?</h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></summary>
-        <p>Standard cleaning is priced per pane. A pane is one piece of glass in a frame, and each side is priced separately, so a piece of glass cleaned inside and outside counts as two panes. Glass doors are priced at double a pane, per side. Hard-water or mineral staining is priced separately because it needs chemical treatment and scraping. Recurring service gets a discount off the standard clean, and every visit has a $40 minimum. The estimate tool on this page uses this exact math.</p>
+        <p>Standard cleaning is priced per pane. A pane is one piece of glass in a frame, and each side is priced separately, so a piece of glass cleaned inside and outside counts as two panes. Glass doors are priced at double a pane, per side. Hard-water or mineral staining is priced separately because it needs chemical treatment and scraping. Recurring service gets a discount off the standard clean, recurring visits have a $50 minimum, and one-time jobs have a $75 minimum. The estimate tool on this page uses this exact math.</p>
       </details>
       <details>
         <summary><h3>Is the online estimate my final price?</h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></summary>
@@ -1254,7 +1258,7 @@
       </details>
       <details>
         <summary><h3>Why is there a first-visit charge?</h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></summary>
-        <p>A first visit usually takes extra time to bring everything up to a clean baseline. That charge is waived automatically when you sign up for recurring service, and the estimate tool reflects that too.</p>
+        <p>A first visit usually takes extra time to bring everything up to a clean baseline. That charge is waived automatically when you start a weekly, every-2-week or monthly schedule, and the estimate tool reflects that too.</p>
       </details>
       <details>
         <summary><h3>How does scheduling work?</h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></summary>
@@ -1447,12 +1451,13 @@
    The price list in section 7 and the discount badges read from here too.
    ============================================================================ */
 const PRICE = {
-  pane:      2.50,   // standard clean, one side, per pane
+  pane:      3.00,   // standard clean, one side, per pane
   hardWater: 20.00,  // chemical treatment / scraping, per pane
   doorMult:  2,      // a door side counts as this many standard panes
   screen:    5.00,   // removal, clean, re-hang, each
   track:     5.00,   // track and channel debris, per window
-  jobMin:    40.00,  // every visit, regardless of pane count
+  jobMin:    50.00,  // minimum for a visit on any recurring schedule
+  jobMinOneTime: 75.00,   // minimum for a one-time job (the dashboard has one minimum: add this there too)
   firstPct:  50      // first-visit surcharge %, applied to the standard clean only
 };
 
@@ -1476,7 +1481,7 @@ const QUOTE_SMS   = '+16035839928';
 const DEFAULTS = {
   pieces: 6, doors: 1, sides: 2,          // sides: 1 = outside only, 2 = inside and outside
   hwPanes: 0, hwDoors: 0, screens: 0, tracks: 0,
-  freq: 'One-time', first: false
+  freq: 'One-time', first: true           // most website visitors are a first visit, so the box starts ticked
 };
 
 /* ============================================================================
@@ -1489,13 +1494,16 @@ const DEFAULTS = {
    outside". Billable panes = pieces x sides — the same per-pane, per-side
    pricing as before; the tool just does the doubling for them.
 
-   priceQuote() below is the dashboard's pricing engine, unchanged:
+   priceQuote() below is the dashboard's pricing engine, with one difference
+   (the first-visit rule, flagged below):
      - a door bills as two standard panes (per side)
      - the recurring discount comes off the standard clean only
-     - the first-visit surcharge applies after that discount, and is waived
-       entirely once the account is recurring
+     - the first-visit surcharge applies to the standard clean, and is waived
+       only on schedules that earn a discount (weekly, every 2 weeks, monthly).
+       NOTE: the dashboard waives it on ANY recurring schedule. Change it there too.
      - hard water and add-ons are never discounted or surcharged
-     - the job minimum is the floor for the whole visit
+     - the job minimum is the floor for the whole visit ($50 recurring,
+       $75 one time; the dashboard has a single minimum, so update it there)
    ============================================================================ */
 const Q = Object.assign({}, DEFAULTS);
 
@@ -1520,8 +1528,9 @@ function priceQuote(q){
   const discountAmt = stdSubtotal * disc;
   const afterDisc   = stdSubtotal - discountAmt;
 
-  const surchargeWaived = q.first && recurring && stdSubtotal > 0;
-  const surchargeAmt = (q.first && !recurring) ? afterDisc * (PRICE.firstPct / 100) : 0;
+  const waives = disc > 0;                 // only schedules that earn a discount (weekly, every 2 weeks, monthly) waive it
+  const surchargeWaived = q.first && waives && stdSubtotal > 0;
+  const surchargeAmt = (q.first && !waives) ? afterDisc * (PRICE.firstPct / 100) : 0;
   const stdFinal = afterDisc + surchargeAmt;
 
   const hwPanesCost = q.hwPanes * PRICE.hardWater;
@@ -1534,19 +1543,20 @@ function priceQuote(q){
 
   const items = q.stdPanes + q.stdDoors + q.hwPanes + q.hwDoors + q.screens + q.tracks;
   const preMin = stdFinal + hwSubtotal + addons;
-  const minApplied = items > 0 && preMin < PRICE.jobMin;
-  const total = items > 0 ? Math.max(preMin, PRICE.jobMin) : 0;
+  const minimum = recurring ? PRICE.jobMin : PRICE.jobMinOneTime;       // one-time jobs have a higher floor
+  const minApplied = items > 0 && preMin < minimum;
+  const total = items > 0 ? Math.max(preMin, minimum) : 0;
 
   return {
     stdPanesCost, stdDoorsCost, stdSubtotal, discountAmt, surchargeAmt, surchargeWaived, recurring,
-    hwSubtotal, addons, screensCost, tracksCost, items, minApplied, total, disc
+    hwSubtotal, addons, screensCost, tracksCost, items, minApplied, minimum, total, disc
   };
 }
 
 function money(n){
   return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
-function shortMoney(n){            // $5 instead of $5.00, but $2.50 stays $2.50
+function shortMoney(n){            // $5 instead of $5.00, but $7.50 stays $7.50
   return Number.isInteger(n) ? '$' + n : money(n);
 }
 function plural(n, one, many){ return n + ' ' + (n === 1 ? one : many); }
@@ -1694,14 +1704,19 @@ function render(){
   syncControls();
   drawStorefront();
 
-  const per = r.recurring ? 'per visit, ' + FREQ_LABEL[Q.freq] : 'one time';
+  // A quarterly or yearly customer pays the first-visit charge once, so that
+  // price is labelled "first visit" and the later-visit price is shown too.
+  const firstOnly = r.recurring && r.surchargeAmt > 0;
+  const later = firstOnly ? priceQuote(Object.assign({}, b, { first: false })) : null;
+  const visitWord = firstOnly ? 'first visit' : 'per visit';
+  const per = r.recurring ? visitWord + ', ' + FREQ_LABEL[Q.freq] : 'one time';
 
   /* hero */
   document.getElementById('heroTotal').innerHTML = money(r.total) + '<small>' + (r.items ? per : '') + '</small>';
   const why = document.getElementById('heroWhy');
   why.className = 'sf-why';
   if (!r.items)              why.textContent = '';
-  else if (r.minApplied)     why.textContent = shortMoney(PRICE.jobMin) + ' visit minimum applies.';
+  else if (r.minApplied)     why.textContent = shortMoney(r.minimum) + (r.recurring ? ' visit minimum applies.' : ' one-time minimum applies.');
   else if (r.discountAmt > 0){ why.textContent = 'Includes your ' + DISCOUNTS[Q.freq] + '% recurring discount.'; why.className = 'sf-why is-saving'; }
   else if (r.surchargeAmt > 0) why.textContent = 'Includes the first-visit charge.';
   else                       why.textContent = plural(b.stdPanes, 'pane', 'panes') + ' at ' + shortMoney(PRICE.pane) + (b.stdDoors ? ', ' + plural(b.stdDoors, 'door side', 'door sides') + ' at ' + shortMoney(PRICE.pane * PRICE.doorMult) : '') + '.';
@@ -1714,13 +1729,13 @@ function render(){
   const pct = DISCOUNTS[Q.freq] || 0;
   hint.className = 'q-help' + (pct > 0 ? ' is-saving' : '');
   hint.textContent = pct > 0 ? 'Saves ' + pct + '% on the standard clean, every visit.'
-    : (r.recurring ? 'Recurring service at the standard rate. The first-visit charge is still waived.' : '');
+    : (r.recurring ? 'Recurring service at the standard rate.' : '');
 
   /* full tool: total + breakdown */
   const whole = Math.floor(r.total);
   const cents = String(Math.round((r.total - whole) * 100)).padStart(2, '0');
   document.getElementById('quoteTotal').innerHTML =
-    '$' + whole.toLocaleString('en-US') + '<small>.' + cents + (r.recurring && r.items ? ' per visit' : '') + '</small>';
+    '$' + whole.toLocaleString('en-US') + '<small>.' + cents + (r.recurring && r.items ? ' ' + visitWord : '') + '</small>';
 
   const rows = [];
   if (b.stdPanes) rows.push([plural(b.stdPanes, 'pane', 'panes') + ' at ' + shortMoney(PRICE.pane), money(r.stdPanesCost)]);
@@ -1731,9 +1746,10 @@ function render(){
   if (r.hwSubtotal > 0) rows.push(['Hard water restoration', money(r.hwSubtotal)]);
   if (r.screensCost > 0) rows.push([plural(Q.screens, 'screen', 'screens'), money(r.screensCost)]);
   if (r.tracksCost > 0) rows.push(['Track cleaning, ' + plural(Q.tracks, 'window', 'windows'), money(r.tracksCost)]);
-  if (r.minApplied) rows.push([shortMoney(PRICE.jobMin) + ' visit minimum applies', '']);
-  if (r.items > 0) rows.push(['Estimated total' + (r.recurring ? ' per visit' : ''), money(r.total), 'total-row']);
-  else rows.push(['Add at least one piece of glass to see a price.', '', 'empty']);
+  if (r.minApplied) rows.push([shortMoney(r.minimum) + (r.recurring ? ' visit minimum applies' : ' one-time minimum applies'), '']);
+  if (r.items > 0) rows.push(['Estimated total' + (r.recurring ? ', ' + visitWord : ''), money(r.total), 'total-row']);
+  if (r.items > 0 && later) rows.push(['Each visit after that', money(later.total)]);
+  if (!r.items) rows.push(['Add at least one piece of glass to see a price.', '', 'empty']);
 
   const list = document.getElementById('quoteBreakdown');
   list.textContent = '';
@@ -1749,7 +1765,7 @@ function render(){
   /* nudge: show what a monthly schedule would do to a one-time price */
   const nudge = document.getElementById('quoteNudge');
   nudge.hidden = true;
-  if (r.items > 0 && Q.freq === 'One-time'){
+  if (r.items > 0 && !(DISCOUNTS[Q.freq] > 0)){          // any schedule with no discount: show what monthly would cost
     const monthly = priceQuote(Object.assign({}, b, { freq: 'Monthly' }));
     if (monthly.total < r.total - 0.004){
       nudge.textContent = 'On a monthly schedule this visit would be ' + money(monthly.total) + ', which is ' + money(r.total - monthly.total) + ' less. ';
@@ -1840,7 +1856,9 @@ function estimateLines(){
   if (Q.tracks)  lines.push('Track cleaning: ' + plural(Q.tracks, 'window', 'windows'));
   lines.push('How often: ' + FREQ_LABEL[Q.freq]);
   lines.push('First visit to this property: ' + (Q.first ? 'yes' : 'no'));
-  lines.push('Online estimate: ' + money(r.total) + (r.recurring ? ' per visit' : ''));
+  const firstOnly = r.recurring && r.surchargeAmt > 0;
+  lines.push('Online estimate: ' + money(r.total) + (r.recurring ? (firstOnly ? ' for the first visit' : ' per visit') : ''));
+  if (firstOnly) lines.push('Each visit after that: ' + money(priceQuote(Object.assign({}, b, { first: false })).total));
   return { lines: lines, r: r };
 }
 function hasItems(){
@@ -1888,7 +1906,7 @@ function estimateLink(){
   if (Q.hwDoors) p.set('hwdoors', Q.hwDoors);
   if (Q.screens) p.set('screens', Q.screens);
   if (Q.tracks)  p.set('tracks', Q.tracks);
-  if (Q.first)   p.set('first', '1');
+  p.set('first', Q.first ? '1' : '0');
   return window.location.origin + window.location.pathname + '?' + p.toString() + '#quote';
 }
 function copyText(text, okMessage){
@@ -1937,6 +1955,7 @@ const mobileMenu = document.getElementById('mobileMenu');
 function setMenu(open){
   mobileMenu.hidden = !open;
   navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  if (open) document.body.classList.remove('chrome-hidden');
   document.body.classList.toggle('menu-open', open);
   document.body.style.overflow = open ? 'hidden' : '';
 }
@@ -1946,6 +1965,32 @@ document.addEventListener('keydown', function(e){
   if (e.key === 'Escape' && !mobileMenu.hidden){ setMenu(false); navToggle.focus(); }
 });
 window.addEventListener('resize', function(){ if (window.innerWidth > 940 && !mobileMenu.hidden) setMenu(false); });
+
+/* On phones, the top bar and the bottom Call / Text / My estimate bar slide
+   out of the way while the visitor scrolls down, and come back the moment
+   they scroll up (or reach the top). The CSS that moves them only applies
+   at phone widths, so this does nothing on tablets and desktops. */
+(function(){
+  let lastY = Math.max(0, window.scrollY), ticking = false;
+  function setHidden(hidden){ document.body.classList.toggle('chrome-hidden', hidden); }
+  function update(){
+    ticking = false;
+    const maxY = document.documentElement.scrollHeight - window.innerHeight;
+    const y = Math.min(Math.max(0, window.scrollY), Math.max(0, maxY));   // ignore rubber-band overscroll
+    if (!mobileMenu.hidden || y < 80) setHidden(false);
+    else if (y > lastY + 6) setHidden(true);
+    else if (y < lastY - 6) setHidden(false);
+    else return;                                                          // tiny jitters change nothing
+    lastY = y;
+  }
+  window.addEventListener('scroll', function(){
+    if (!ticking){ ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  // keyboard users tabbing into either bar bring it back
+  document.addEventListener('focusin', function(e){
+    if (e.target.closest && e.target.closest('.site-header, .action-bar')) setHidden(false);
+  });
+})();
 
 /* Theme: the attribute is set in <head> before first paint; this handles clicks. */
 document.querySelectorAll('[data-theme-toggle]').forEach(function(btn){
@@ -1987,6 +2032,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
     const count = function(key, field){ if (/^\d{1,3}$/.test(p.get(key) || '')) Q[field] = clampCount(p.get(key)); };
     count('hw', 'hwPanes'); count('hwdoors', 'hwDoors'); count('screens', 'screens'); count('tracks', 'tracks');
     if (p.get('first') === '1') Q.first = true;
+    if (p.get('first') === '0') Q.first = false;
     // open the optional sections if the link filled them in
     if (Q.hwPanes || Q.hwDoors) document.getElementById('hwSection').open = true;
     if (Q.screens || Q.tracks)  document.getElementById('addonsSection').open = true;
