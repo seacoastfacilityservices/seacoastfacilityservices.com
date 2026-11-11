@@ -289,11 +289,11 @@
   .mobile-menu nav a{padding:17px 2px;border-bottom:1px solid var(--border-c);font-family:var(--display);font-weight:600;font-size:18px;color:var(--heading);}
   .mobile-menu .menu-row{display:flex;align-items:center;justify-content:space-between;padding:16px 2px;color:var(--muted);font-size:15px;}
 
-  @media (max-width: 940px){
+  @media (max-width: 990px){
     nav.main-nav, .header-cta .btn, .header-cta > .theme-toggle{display:none;}
     .nav-toggle{display:inline-flex;}
   }
-  @media (min-width: 941px){ .mobile-menu{display:none !important;} }
+  @media (min-width: 991px){ .mobile-menu{display:none !important;} }
   @media (max-width: 520px){ .phone-link .phone-number-text{display:none;} }
   @media (max-width: 420px){
     .header-row{padding:0 16px;}
@@ -329,17 +329,20 @@
   .sf-art svg{width:100%;height:auto;}
   .sf-caption{margin:12px 2px 14px;font-size:14px;color:rgba(255,255,255,.78);min-height:1.6em;}
   .sf-controls{display:grid;grid-template-columns:1fr;gap:10px;}
-  .sf .chip span{padding:8px 12px;font-size:13.5px;}
   .sf-field{display:flex;align-items:center;justify-content:space-between;gap:10px;}
   .sf-field > span, .sf-legend{font-size:14.5px;font-weight:500;color:#fff;}
   .sf-row{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;}
+  /* A two-column grid, not a wrapping row: the button has its own fixed
+     column, so it never jumps to a new line when the label next to the price
+     gets longer ("per visit, every 2 weeks"). */
   .sf-total-row{
-    grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 18px;
+    grid-column:1 / -1;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:12px 18px;
     border-top:1px solid rgba(255,255,255,.16);margin-top:8px;padding-top:16px;
   }
   .sf-total-label{font-size:13.5px;color:rgba(255,255,255,.7);margin:0 0 2px;}
   .sf-total{font-family:var(--display);font-weight:800;font-size:40px;line-height:1;letter-spacing:-.02em;margin:0;}
-  .sf-total small{font-family:var(--body);font-weight:500;font-size:14px;letter-spacing:0;color:rgba(255,255,255,.72);margin-left:6px;}
+  /* the schedule label sits on its own line under the price, so the row is the same height for every schedule */
+  .sf-total small{display:block;font-family:var(--body);font-weight:500;font-size:14px;line-height:1.3;letter-spacing:0;color:rgba(255,255,255,.72);margin:7px 0 0;min-height:1.3em;}
   .sf-why{font-size:13px;color:rgba(255,255,255,.7);margin:6px 0 0;min-height:1.5em;}
   .sf-why.is-saving{color:var(--mint);}
 
@@ -369,19 +372,31 @@
     font-variant-numeric:tabular-nums;-moz-appearance:textfield;appearance:textfield;
   }
   .stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;border:0;margin:0;padding:0;min-width:0;}
-  .chip{position:relative;}
+  /* Segmented selectors: one connected track, with the chosen option as a
+     solid white pill inside it. Used for "which sides" and "how often" in the
+     hero, the full tool and the 404 page, so they all look the same. */
+  .chips{
+    display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;
+    width:100%;min-width:0;margin:0;padding:4px;
+    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:14px;
+  }
+  /* "how often" (hero and full tool): four equal segments on one line */
+  .chips.chips-4{grid-auto-flow:row;grid-template-columns:repeat(4,minmax(0,1fr));}
+  .chip{position:relative;min-width:0;}
   .chip input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer;}
   .chip span{
-    display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:999px;
-    border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);
-    font-size:14px;font-weight:500;color:#fff;white-space:nowrap;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+    width:100%;min-height:44px;padding:6px 3px;border-radius:10px;
+    font-size:14px;font-weight:500;line-height:1.25;color:rgba(255,255,255,.88);white-space:nowrap;text-align:center;
+    transition:background .15s ease, color .15s ease;
   }
-  .chip em{font-style:normal;font-weight:600;color:var(--mint);font-size:13px;}
-  .chip input:hover + span{background:rgba(255,255,255,.14);}
-  .chip input:checked + span{background:#fff;border-color:#fff;color:var(--navy);}
+  .chips-4 .chip span{min-height:50px;font-size:13.5px;}
+  .chip em{font-style:normal;font-weight:600;color:var(--mint);font-size:12.5px;}
+  .chip input:hover + span{background:rgba(255,255,255,.1);}
+  .chip input:checked + span{background:#fff;color:var(--navy);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.28);}
   .chip input:checked + span em{color:#17693a;}
   .chip input:focus-visible + span{outline:3px solid var(--sky);outline-offset:2px;}
+  @media (max-width:360px){ .chips-4 .chip span{font-size:12.5px;} .chips{gap:2px;padding:3px;} }
 
   @media (max-width: 1100px){
     .hero{padding:48px 0 56px;}
@@ -394,10 +409,14 @@
     .hero-title{max-width:18ch;}
     .sf{max-width:560px;}
   }
+  /* Tablets and phones: the card is narrower, so the button sits full-width under the price */
+  @media (max-width: 990px){
+    .sf-total-row{grid-template-columns:1fr;}
+    .sf-total-row .btn{width:100%;}
+  }
   @media (max-width: 480px){
     .sf{padding:12px 12px 16px;border-radius:14px;margin:0 -8px;}
     .sf-total{font-size:36px;}
-    .sf-total-row .btn{width:100%;}
   }
 
   /* ---- why us: three plain statements, no boxes ---- */
@@ -718,7 +737,7 @@
       "name": "Why is there a first-visit charge?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A first visit usually takes extra time to bring everything up to a clean baseline. That charge is waived automatically when you start a weekly, every-2-week or monthly schedule, and the estimate tool reflects that too."
+        "text": "A first visit usually takes extra time to bring everything up to a clean baseline. You pay it once: if we've cleaned your glass in the last six months, it doesn't apply. Weekly, bi-weekly and monthly schedules skip it entirely, and the estimate tool reflects that too."
       }
     },
     {
@@ -912,20 +931,18 @@
           </span>
         </div>
         <div class="sf-row">
-          <fieldset class="chips" data-field="sides">
-            <legend class="visually-hidden">Which sides of the glass?</legend>
+          <div class="chips" data-field="sides" role="radiogroup" aria-label="Which sides of the glass?">
             <label class="chip"><input type="radio" name="heroSides" value="1"><span>Outside only</span></label>
             <label class="chip"><input type="radio" name="heroSides" value="2" checked><span>Inside and outside</span></label>
-          </fieldset>
+          </div>
         </div>
         <div class="sf-row">
-          <fieldset class="chips" data-field="freq">
-            <legend class="visually-hidden">How often?</legend>
+          <div class="chips chips-4" data-field="freq" role="radiogroup" aria-label="How often?">
             <label class="chip"><input type="radio" name="heroFreq" value="One-time" checked><span>One time</span></label>
             <label class="chip"><input type="radio" name="heroFreq" value="Weekly"><span>Weekly <em data-discount="Weekly">&minus;20%</em></span></label>
-            <label class="chip"><input type="radio" name="heroFreq" value="Bi-weekly"><span>Every 2 weeks <em data-discount="Bi-weekly">&minus;15%</em></span></label>
+            <label class="chip"><input type="radio" name="heroFreq" value="Bi-weekly"><span>Bi-weekly <em data-discount="Bi-weekly">&minus;15%</em></span></label>
             <label class="chip"><input type="radio" name="heroFreq" value="Monthly"><span>Monthly <em data-discount="Monthly">&minus;10%</em></span></label>
-          </fieldset>
+          </div>
         </div>
         <div class="sf-total-row">
           <div>
@@ -1020,8 +1037,8 @@
             <tr><th scope="row">Monthly</th><td><span data-discount="Monthly">10%</span> off</td></tr>
           </tbody>
         </table>
-        <p>Discounts apply to the standard clean. Quarterly, twice-a-year and yearly schedules are available at the standard rate.</p>
-        <p>A first visit to a property adds <span data-price="firstPct">50%</span> to the standard clean. That charge is waived when you start a weekly, every-2-week or monthly schedule.</p>
+        <p>Discounts apply to the standard clean.</p>
+        <p>A first visit to a property adds <span data-price="firstPct">50%</span> to the standard clean. You pay it once: book again within six months and it doesn't apply. Weekly, bi-weekly and monthly schedules skip it entirely.</p>
         <p>Recurring visits have a <span data-price="jobMin">$50</span> minimum. One-time jobs have a <span data-price="jobMinOneTime">$75</span> minimum.</p>
         <a href="#quote" class="btn btn-outline btn-block">Price my windows</a>
       </aside>
@@ -1149,22 +1166,19 @@
 
         <fieldset class="q-group" style="margin-top:26px;">
           <legend>How often?</legend>
-          <div class="chips" data-field="freq">
+          <div class="chips chips-4" data-field="freq">
             <label class="chip"><input type="radio" name="qFreq" value="One-time" checked><span>One time</span></label>
             <label class="chip"><input type="radio" name="qFreq" value="Weekly"><span>Weekly <em data-discount="Weekly">&minus;20%</em></span></label>
-            <label class="chip"><input type="radio" name="qFreq" value="Bi-weekly"><span>Every 2 weeks <em data-discount="Bi-weekly">&minus;15%</em></span></label>
+            <label class="chip"><input type="radio" name="qFreq" value="Bi-weekly"><span>Bi-weekly <em data-discount="Bi-weekly">&minus;15%</em></span></label>
             <label class="chip"><input type="radio" name="qFreq" value="Monthly"><span>Monthly <em data-discount="Monthly">&minus;10%</em></span></label>
-            <label class="chip"><input type="radio" name="qFreq" value="Quarterly"><span>Quarterly</span></label>
-            <label class="chip"><input type="radio" name="qFreq" value="Semi-annual"><span>Twice a year</span></label>
-            <label class="chip"><input type="radio" name="qFreq" value="Annual"><span>Yearly</span></label>
           </div>
           <p class="q-help" id="freqHint" aria-live="polite"></p>
         </fieldset>
 
         <label class="q-check">
           <input type="checkbox" id="firstVisit" data-field="first" checked>
-          <span>This would be our first visit to this property
-            <small class="q-help" style="margin-top:2px;">The first-visit charge is waived on weekly, every-2-week and monthly schedules.</small></span>
+          <span>We haven't cleaned this property in the last 6 months
+            <small class="q-help" style="margin-top:2px;">Adds the first-visit charge. You pay it once, and weekly, bi-weekly and monthly schedules skip it.</small></span>
         </label>
       </form>
 
@@ -1258,7 +1272,7 @@
       </details>
       <details>
         <summary><h3>Why is there a first-visit charge?</h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></summary>
-        <p>A first visit usually takes extra time to bring everything up to a clean baseline. That charge is waived automatically when you start a weekly, every-2-week or monthly schedule, and the estimate tool reflects that too.</p>
+        <p>A first visit usually takes extra time to bring everything up to a clean baseline. You pay it once: if we've cleaned your glass in the last six months, it doesn't apply. Weekly, bi-weekly and monthly schedules skip it entirely, and the estimate tool reflects that too.</p>
       </details>
       <details>
         <summary><h3>How does scheduling work?</h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></summary>
@@ -1464,13 +1478,12 @@ const PRICE = {
 // % discount off the STANDARD CLEAN only, by frequency (hard water & add-ons never discounted)
 const DISCOUNTS = {
   'Weekly': 20, 'Bi-weekly': 15, 'Monthly': 10,
-  'Quarterly': 0, 'Semi-annual': 0, 'Annual': 0, 'One-time': 0
+  'One-time': 0
 };
 
 // How each frequency is worded to customers
 const FREQ_LABEL = {
-  'One-time': 'one time', 'Weekly': 'weekly', 'Bi-weekly': 'every 2 weeks', 'Monthly': 'monthly',
-  'Quarterly': 'quarterly', 'Semi-annual': 'twice a year', 'Annual': 'yearly'
+  'One-time': 'one time', 'Weekly': 'weekly', 'Bi-weekly': 'every 2 weeks', 'Monthly': 'monthly'
 };
 
 const QUOTE_EMAIL = 'billing@seacoastfacilityservices.com';
@@ -1481,7 +1494,7 @@ const QUOTE_SMS   = '+16035839928';
 const DEFAULTS = {
   pieces: 6, doors: 1, sides: 2,          // sides: 1 = outside only, 2 = inside and outside
   hwPanes: 0, hwDoors: 0, screens: 0, tracks: 0,
-  freq: 'One-time', first: true           // most website visitors are a first visit, so the box starts ticked
+  freq: 'One-time', first: true           // "not cleaned by us in the last 6 months": true for most website visitors, so the box starts ticked
 };
 
 /* ============================================================================
@@ -1704,10 +1717,13 @@ function render(){
   syncControls();
   drawStorefront();
 
-  // A quarterly or yearly customer pays the first-visit charge once, so that
-  // price is labelled "first visit" and the later-visit price is shown too.
+  // (Only matters if you add a recurring schedule with no discount, e.g. quarterly:
+  // that customer pays the first-visit charge once, so that
+  // price is labelled "first visit" and the later-visit price is shown too.)
   const firstOnly = r.recurring && r.surchargeAmt > 0;
-  const later = firstOnly ? priceQuote(Object.assign({}, b, { first: false })) : null;
+  // The first-visit charge is paid once: a customer who books again within six
+  // months doesn't pay it. "later" is that next-visit price, shown under the total.
+  const later = r.surchargeAmt > 0 ? priceQuote(Object.assign({}, b, { first: false })) : null;
   const visitWord = firstOnly ? 'first visit' : 'per visit';
   const per = r.recurring ? visitWord + ', ' + FREQ_LABEL[Q.freq] : 'one time';
 
@@ -1748,7 +1764,7 @@ function render(){
   if (r.tracksCost > 0) rows.push(['Track cleaning, ' + plural(Q.tracks, 'window', 'windows'), money(r.tracksCost)]);
   if (r.minApplied) rows.push([shortMoney(r.minimum) + (r.recurring ? ' visit minimum applies' : ' one-time minimum applies'), '']);
   if (r.items > 0) rows.push(['Estimated total' + (r.recurring ? ', ' + visitWord : ''), money(r.total), 'total-row']);
-  if (r.items > 0 && later) rows.push(['Each visit after that', money(later.total)]);
+  if (r.items > 0 && later) rows.push([r.recurring ? 'Each visit after that' : 'Next visit within 6 months', money(later.total)]);
   if (!r.items) rows.push(['Add at least one piece of glass to see a price.', '', 'empty']);
 
   const list = document.getElementById('quoteBreakdown');
@@ -1855,10 +1871,10 @@ function estimateLines(){
   if (Q.screens) lines.push('Screens: ' + Q.screens);
   if (Q.tracks)  lines.push('Track cleaning: ' + plural(Q.tracks, 'window', 'windows'));
   lines.push('How often: ' + FREQ_LABEL[Q.freq]);
-  lines.push('First visit to this property: ' + (Q.first ? 'yes' : 'no'));
+  lines.push('Cleaned by you in the last 6 months: ' + (Q.first ? 'no' : 'yes'));
   const firstOnly = r.recurring && r.surchargeAmt > 0;
   lines.push('Online estimate: ' + money(r.total) + (r.recurring ? (firstOnly ? ' for the first visit' : ' per visit') : ''));
-  if (firstOnly) lines.push('Each visit after that: ' + money(priceQuote(Object.assign({}, b, { first: false })).total));
+  if (r.surchargeAmt > 0) lines.push((r.recurring ? 'Each visit after that: ' : 'Next visit within 6 months: ') + money(priceQuote(Object.assign({}, b, { first: false })).total));
   return { lines: lines, r: r };
 }
 function hasItems(){
@@ -1964,7 +1980,7 @@ mobileMenu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click'
 document.addEventListener('keydown', function(e){
   if (e.key === 'Escape' && !mobileMenu.hidden){ setMenu(false); navToggle.focus(); }
 });
-window.addEventListener('resize', function(){ if (window.innerWidth > 940 && !mobileMenu.hidden) setMenu(false); });
+window.addEventListener('resize', function(){ if (window.innerWidth > 990 && !mobileMenu.hidden) setMenu(false); });
 
 /* On phones, the top bar and the bottom Call / Text / My estimate bar slide
    out of the way while the visitor scrolls down, and come back the moment
