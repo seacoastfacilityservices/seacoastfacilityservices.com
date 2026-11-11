@@ -755,16 +755,16 @@
         </div>
         <div class="sf-row">
           <div class="chips chips-4" data-field="freq" role="radiogroup" aria-label="How often?">
-            <label class="chip"><input type="radio" name="heroFreq" value="One-time" checked><span>One time</span></label>
-            <label class="chip"><input type="radio" name="heroFreq" value="Weekly"><span>Weekly <em data-discount="Weekly">&minus;20%</em></span></label>
+            <label class="chip"><input type="radio" name="heroFreq" value="Monthly" checked><span>Monthly <em data-discount="Monthly">&minus;10%</em></span></label>
             <label class="chip"><input type="radio" name="heroFreq" value="Bi-weekly"><span>Bi-weekly <em data-discount="Bi-weekly">&minus;15%</em></span></label>
-            <label class="chip"><input type="radio" name="heroFreq" value="Monthly"><span>Monthly <em data-discount="Monthly">&minus;10%</em></span></label>
+            <label class="chip"><input type="radio" name="heroFreq" value="Weekly"><span>Weekly <em data-discount="Weekly">&minus;20%</em></span></label>
+            <label class="chip"><input type="radio" name="heroFreq" value="One-time"><span>One time</span></label>
           </div>
         </div>
         <div class="sf-total-row">
           <div>
             <p class="sf-total-label">Your estimate</p>
-            <p class="sf-total num" id="heroTotal" aria-live="polite">$75.00<small>one time</small></p>
+            <p class="sf-total num" id="heroTotal" aria-live="polite">$50.00<small>per visit, monthly</small></p>
             <p class="sf-why" id="heroWhy"></p>
           </div>
           <a href="/#quote" class="btn btn-primary" id="carryLink">See the full breakdown</a>
@@ -803,7 +803,8 @@
 const PRICE = {
   pane:      3.00,   // standard clean, one side, per pane
   hardWater: 20.00,  // chemical treatment / scraping, per pane
-  doorMult:  2,      // a door side counts as this many standard panes
+  door:      5.00,   // glass door, standard clean, per side (its own price: no longer tied to the pane rate)
+  doorMult:  2,      // hard water only: a stained door side counts as this many stained panes
   screen:    5.00,   // removal, clean, re-hang, each
   track:     5.00,   // track and channel debris, per window
   jobMin:    50.00,  // minimum for a visit on any recurring schedule
@@ -830,7 +831,7 @@ const QUOTE_SMS   = '+16035839928';
 const DEFAULTS = {
   pieces: 6, doors: 1, sides: 1,          // sides: 1 = outside only (the starting choice), 2 = inside and outside
   hwPanes: 0, hwDoors: 0, screens: 0, tracks: 0,
-  freq: 'One-time', first: true           // "not cleaned by us in the last 6 months": true for most website visitors, so the box starts ticked
+  freq: 'Monthly', first: true            // "not cleaned by us in the last 6 months": true for most website visitors, so the box starts ticked
 };
 
 /* ============================================================================
@@ -845,7 +846,8 @@ const DEFAULTS = {
 
    priceQuote() below is the dashboard's pricing engine, with one difference
    (the first-visit rule, flagged below):
-     - a door bills as two standard panes (per side)
+     - a door has its own per-side price (PRICE.door). NOTE: the dashboard
+       bills a door as two panes, so change it there too.
      - the recurring discount comes off the standard clean only
      - the first-visit surcharge applies to the standard clean, and is waived
        only on schedules that earn a discount (weekly, every 2 weeks, monthly).
@@ -871,7 +873,7 @@ function priceQuote(q){
   const recurring = !!q.freq && q.freq !== 'One-time';
 
   const stdPanesCost = q.stdPanes * PRICE.pane;
-  const stdDoorsCost = q.stdDoors * PRICE.pane * PRICE.doorMult;
+  const stdDoorsCost = q.stdDoors * PRICE.door;
   const stdSubtotal  = stdPanesCost + stdDoorsCost;
 
   const discountAmt = stdSubtotal * disc;
@@ -1059,7 +1061,7 @@ function render(){
   else if (r.minApplied)     why.textContent = shortMoney(r.minimum) + (r.recurring ? ' visit minimum applies.' : ' one-time minimum applies.');
   else if (r.discountAmt > 0){ why.textContent = 'Includes your ' + DISCOUNTS[Q.freq] + '% recurring discount.'; why.className = 'sf-why is-saving'; }
   else if (r.surchargeAmt > 0) why.textContent = 'Includes the first-visit charge.';
-  else                       why.textContent = plural(b.stdPanes, 'pane', 'panes') + ' at ' + shortMoney(PRICE.pane) + (b.stdDoors ? ', ' + plural(b.stdDoors, 'door side', 'door sides') + ' at ' + shortMoney(PRICE.pane * PRICE.doorMult) : '') + '.';
+  else                       why.textContent = plural(b.stdPanes, 'pane', 'panes') + ' at ' + shortMoney(PRICE.pane) + (b.stdDoors ? ', ' + plural(b.stdDoors, 'door side', 'door sides') + ' at ' + shortMoney(PRICE.door) : '') + '.';
 
 
   /* the button carries this estimate over to the full tool on the home page */

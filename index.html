@@ -692,7 +692,7 @@
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Standard window cleaning" },
         "priceSpecification": { "@type": "UnitPriceSpecification", "price": "3.00", "priceCurrency": "USD", "unitText": "pane, per side" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Glass door cleaning" },
-        "priceSpecification": { "@type": "UnitPriceSpecification", "price": "6.00", "priceCurrency": "USD", "unitText": "door, per side" } },
+        "priceSpecification": { "@type": "UnitPriceSpecification", "price": "5.00", "priceCurrency": "USD", "unitText": "door, per side" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Hard water and mineral stain restoration" },
         "priceSpecification": { "@type": "UnitPriceSpecification", "price": "20.00", "priceCurrency": "USD", "unitText": "pane" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Screen cleaning" },
@@ -713,7 +713,7 @@
       "name": "How much does commercial window cleaning cost in Exeter, NH?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Seacoast Facility Services charges $3 per pane, per side, for standard cleaning and $6 per side for glass doors, with a $50 minimum per visit on a recurring schedule and a $75 minimum for one-time jobs. A small storefront with 6 pieces of glass and 1 door, cleaned inside and outside, works out to $48, so the minimum applies: $50 per visit on a recurring schedule, or $75 one time. Weekly, every-2-week and monthly schedules take 20%, 15% and 10% off the standard clean."
+        "text": "Seacoast Facility Services charges $3 per pane, per side, for standard cleaning and $5 per side for glass doors, with a $50 minimum per visit on a recurring schedule and a $75 minimum for one-time jobs. A small storefront with 6 pieces of glass and 1 door, cleaned inside and outside, works out to $46, so the minimum applies: $50 per visit on a recurring schedule, or $75 one time. Weekly, every-2-week and monthly schedules take 20%, 15% and 10% off the standard clean."
       }
     },
     {
@@ -721,7 +721,7 @@
       "name": "How is my price calculated?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Standard cleaning is priced per pane. A pane is one piece of glass in a frame, and each side is priced separately, so a piece of glass cleaned inside and outside counts as two panes. Glass doors are priced at double a pane, per side. Hard-water or mineral staining is priced separately because it needs chemical treatment and scraping. Recurring service gets a discount off the standard clean, recurring visits have a $50 minimum, and one-time jobs have a $75 minimum. The estimate tool on this page uses this exact math."
+        "text": "Standard cleaning is priced per pane. A pane is one piece of glass in a frame, and each side is priced separately, so a piece of glass cleaned inside and outside counts as two panes. Glass doors have their own price, per side. Hard-water or mineral staining is priced separately because it needs chemical treatment and scraping. Recurring service gets a discount off the standard clean, recurring visits have a $50 minimum, and one-time jobs have a $75 minimum. The estimate tool on this page uses this exact math."
       }
     },
     {
@@ -938,16 +938,16 @@
         </div>
         <div class="sf-row">
           <div class="chips chips-4" data-field="freq" role="radiogroup" aria-label="How often?">
-            <label class="chip"><input type="radio" name="heroFreq" value="One-time" checked><span>One time</span></label>
-            <label class="chip"><input type="radio" name="heroFreq" value="Weekly"><span>Weekly <em data-discount="Weekly">&minus;20%</em></span></label>
+            <label class="chip"><input type="radio" name="heroFreq" value="Monthly" checked><span>Monthly <em data-discount="Monthly">&minus;10%</em></span></label>
             <label class="chip"><input type="radio" name="heroFreq" value="Bi-weekly"><span>Bi-weekly <em data-discount="Bi-weekly">&minus;15%</em></span></label>
-            <label class="chip"><input type="radio" name="heroFreq" value="Monthly"><span>Monthly <em data-discount="Monthly">&minus;10%</em></span></label>
+            <label class="chip"><input type="radio" name="heroFreq" value="Weekly"><span>Weekly <em data-discount="Weekly">&minus;20%</em></span></label>
+            <label class="chip"><input type="radio" name="heroFreq" value="One-time"><span>One time</span></label>
           </div>
         </div>
         <div class="sf-total-row">
           <div>
             <p class="sf-total-label">Your estimate</p>
-            <p class="sf-total num" id="heroTotal" aria-live="polite">$75.00<small>one time</small></p>
+            <p class="sf-total num" id="heroTotal" aria-live="polite">$50.00<small>per visit, monthly</small></p>
             <p class="sf-why" id="heroWhy"></p>
           </div>
           <a href="#quote" class="btn btn-primary">See the breakdown</a>
@@ -1001,8 +1001,8 @@
         </li>
         <li>
           <h3>Glass doors</h3>
-          <span class="price"><span data-price="door">$6</span> <small>per side</small></span>
-          <p>Doors take more handling and more fingerprints, so each one counts as two panes.</p>
+          <span class="price"><span data-price="door">$5</span> <small>per side</small></span>
+          <p>Doors take more handling and more fingerprints than a window, so they have their own rate.</p>
         </li>
         <li>
           <h3>Hard water and mineral restoration</h3>
@@ -1096,7 +1096,7 @@
             </span>
           </div>
           <div class="q-row">
-            <label for="qDoors">Glass doors<small>Each door counts as two panes</small></label>
+            <label for="qDoors">Glass doors<small>Priced per door, per side</small></label>
             <span class="stepper" data-field="doors">
               <button type="button" data-dir="-1" aria-label="One less glass door">&minus;</button>
               <input type="number" id="qDoors" min="0" max="999" step="1" value="1" inputmode="numeric">
@@ -1167,10 +1167,10 @@
         <fieldset class="q-group" style="margin-top:26px;">
           <legend>How often?</legend>
           <div class="chips chips-4" data-field="freq">
-            <label class="chip"><input type="radio" name="qFreq" value="One-time" checked><span>One time</span></label>
-            <label class="chip"><input type="radio" name="qFreq" value="Weekly"><span>Weekly <em data-discount="Weekly">&minus;20%</em></span></label>
+            <label class="chip"><input type="radio" name="qFreq" value="Monthly" checked><span>Monthly <em data-discount="Monthly">&minus;10%</em></span></label>
             <label class="chip"><input type="radio" name="qFreq" value="Bi-weekly"><span>Bi-weekly <em data-discount="Bi-weekly">&minus;15%</em></span></label>
-            <label class="chip"><input type="radio" name="qFreq" value="Monthly"><span>Monthly <em data-discount="Monthly">&minus;10%</em></span></label>
+            <label class="chip"><input type="radio" name="qFreq" value="Weekly"><span>Weekly <em data-discount="Weekly">&minus;20%</em></span></label>
+            <label class="chip"><input type="radio" name="qFreq" value="One-time"><span>One time</span></label>
           </div>
           <p class="q-help" id="freqHint" aria-live="polite"></p>
         </fieldset>
@@ -1184,7 +1184,7 @@
 
       <div class="quote-summary" id="quoteSummary">
         <p class="estimate-label">Your estimate</p>
-        <p class="quote-total" id="quoteTotal" aria-live="polite">$75<small>.00</small></p>
+        <p class="quote-total" id="quoteTotal" aria-live="polite">$50<small>.00 per visit</small></p>
         <ul class="quote-breakdown" id="quoteBreakdown"></ul>
         <p class="q-nudge" id="quoteNudge" hidden></p>
         <p class="quote-note">
@@ -1260,11 +1260,11 @@
            PRICING CONSTANTS, update the numbers in this sentence too. -->
       <details>
         <summary><h3>How much does commercial window cleaning cost in Exeter, NH?</h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></summary>
-        <p>Seacoast Facility Services charges $3 per pane, per side, for standard cleaning and $6 per side for glass doors, with a $50 minimum per visit on a recurring schedule and a $75 minimum for one-time jobs. A small storefront with 6 pieces of glass and 1 door, cleaned inside and outside, works out to $48, so the minimum applies: $50 per visit on a recurring schedule, or $75 one time. Weekly, every-2-week and monthly schedules take 20%, 15% and 10% off the standard clean.</p>
+        <p>Seacoast Facility Services charges $3 per pane, per side, for standard cleaning and $5 per side for glass doors, with a $50 minimum per visit on a recurring schedule and a $75 minimum for one-time jobs. A small storefront with 6 pieces of glass and 1 door, cleaned inside and outside, works out to $46, so the minimum applies: $50 per visit on a recurring schedule, or $75 one time. Weekly, every-2-week and monthly schedules take 20%, 15% and 10% off the standard clean.</p>
       </details>
       <details>
         <summary><h3>How is my price calculated?</h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></summary>
-        <p>Standard cleaning is priced per pane. A pane is one piece of glass in a frame, and each side is priced separately, so a piece of glass cleaned inside and outside counts as two panes. Glass doors are priced at double a pane, per side. Hard-water or mineral staining is priced separately because it needs chemical treatment and scraping. Recurring service gets a discount off the standard clean, recurring visits have a $50 minimum, and one-time jobs have a $75 minimum. The estimate tool on this page uses this exact math.</p>
+        <p>Standard cleaning is priced per pane. A pane is one piece of glass in a frame, and each side is priced separately, so a piece of glass cleaned inside and outside counts as two panes. Glass doors have their own price, per side. Hard-water or mineral staining is priced separately because it needs chemical treatment and scraping. Recurring service gets a discount off the standard clean, recurring visits have a $50 minimum, and one-time jobs have a $75 minimum. The estimate tool on this page uses this exact math.</p>
       </details>
       <details>
         <summary><h3>Is the online estimate my final price?</h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></summary>
@@ -1467,7 +1467,8 @@
 const PRICE = {
   pane:      3.00,   // standard clean, one side, per pane
   hardWater: 20.00,  // chemical treatment / scraping, per pane
-  doorMult:  2,      // a door side counts as this many standard panes
+  door:      5.00,   // glass door, standard clean, per side (its own price: no longer tied to the pane rate)
+  doorMult:  2,      // hard water only: a stained door side counts as this many stained panes
   screen:    5.00,   // removal, clean, re-hang, each
   track:     5.00,   // track and channel debris, per window
   jobMin:    50.00,  // minimum for a visit on any recurring schedule
@@ -1494,7 +1495,7 @@ const QUOTE_SMS   = '+16035839928';
 const DEFAULTS = {
   pieces: 6, doors: 1, sides: 1,          // sides: 1 = outside only (the starting choice), 2 = inside and outside
   hwPanes: 0, hwDoors: 0, screens: 0, tracks: 0,
-  freq: 'One-time', first: true           // "not cleaned by us in the last 6 months": true for most website visitors, so the box starts ticked
+  freq: 'Monthly', first: true            // "not cleaned by us in the last 6 months": true for most website visitors, so the box starts ticked
 };
 
 /* ============================================================================
@@ -1509,7 +1510,8 @@ const DEFAULTS = {
 
    priceQuote() below is the dashboard's pricing engine, with one difference
    (the first-visit rule, flagged below):
-     - a door bills as two standard panes (per side)
+     - a door has its own per-side price (PRICE.door). NOTE: the dashboard
+       bills a door as two panes, so change it there too.
      - the recurring discount comes off the standard clean only
      - the first-visit surcharge applies to the standard clean, and is waived
        only on schedules that earn a discount (weekly, every 2 weeks, monthly).
@@ -1535,7 +1537,7 @@ function priceQuote(q){
   const recurring = !!q.freq && q.freq !== 'One-time';
 
   const stdPanesCost = q.stdPanes * PRICE.pane;
-  const stdDoorsCost = q.stdDoors * PRICE.pane * PRICE.doorMult;
+  const stdDoorsCost = q.stdDoors * PRICE.door;
   const stdSubtotal  = stdPanesCost + stdDoorsCost;
 
   const discountAmt = stdSubtotal * disc;
@@ -1735,7 +1737,7 @@ function render(){
   else if (r.minApplied)     why.textContent = shortMoney(r.minimum) + (r.recurring ? ' visit minimum applies.' : ' one-time minimum applies.');
   else if (r.discountAmt > 0){ why.textContent = 'Includes your ' + DISCOUNTS[Q.freq] + '% recurring discount.'; why.className = 'sf-why is-saving'; }
   else if (r.surchargeAmt > 0) why.textContent = 'Includes the first-visit charge.';
-  else                       why.textContent = plural(b.stdPanes, 'pane', 'panes') + ' at ' + shortMoney(PRICE.pane) + (b.stdDoors ? ', ' + plural(b.stdDoors, 'door side', 'door sides') + ' at ' + shortMoney(PRICE.pane * PRICE.doorMult) : '') + '.';
+  else                       why.textContent = plural(b.stdPanes, 'pane', 'panes') + ' at ' + shortMoney(PRICE.pane) + (b.stdDoors ? ', ' + plural(b.stdDoors, 'door side', 'door sides') + ' at ' + shortMoney(PRICE.door) : '') + '.';
 
   /* full tool: helper lines */
   document.getElementById('sidesHelp').textContent = Q.pieces
@@ -1755,7 +1757,7 @@ function render(){
 
   const rows = [];
   if (b.stdPanes) rows.push([plural(b.stdPanes, 'pane', 'panes') + ' at ' + shortMoney(PRICE.pane), money(r.stdPanesCost)]);
-  if (b.stdDoors) rows.push([plural(b.stdDoors, 'door side', 'door sides') + ' at ' + shortMoney(PRICE.pane * PRICE.doorMult), money(r.stdDoorsCost)]);
+  if (b.stdDoors) rows.push([plural(b.stdDoors, 'door side', 'door sides') + ' at ' + shortMoney(PRICE.door), money(r.stdDoorsCost)]);
   if (r.discountAmt > 0) rows.push([DISCOUNTS[Q.freq] + '% recurring discount', '− ' + money(r.discountAmt), 'savings']);
   if (r.surchargeAmt > 0) rows.push(['First-visit charge (' + PRICE.firstPct + '%)', '+ ' + money(r.surchargeAmt)]);
   else if (r.surchargeWaived) rows.push(['First-visit charge', 'Waived', 'savings']);
@@ -1840,7 +1842,7 @@ document.getElementById('quoteResetBtn').addEventListener('click', function(){
 /* Fill the price list and discount badges from the constants above. */
 document.querySelectorAll('[data-price]').forEach(function(el){
   const k = el.dataset.price;
-  if (k === 'door')          el.textContent = shortMoney(PRICE.pane * PRICE.doorMult);
+  if (k === 'door')          el.textContent = shortMoney(PRICE.door);
   else if (k === 'firstPct') el.textContent = PRICE.firstPct + '%';
   else if (k in PRICE)       el.textContent = shortMoney(PRICE[k]);
 });
