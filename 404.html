@@ -728,7 +728,7 @@
           </g>
         </svg>
       </div>
-      <p class="sf-caption" id="sfCaption">6 pieces of glass and 1 door, inside and outside.</p>
+      <p class="sf-caption" id="sfCaption">6 pieces of glass and 1 door, outside only.</p>
 
       <div class="sf-controls">
         <div class="sf-field">
@@ -749,8 +749,8 @@
         </div>
         <div class="sf-row">
           <div class="chips" data-field="sides" role="radiogroup" aria-label="Which sides of the glass?">
-            <label class="chip"><input type="radio" name="heroSides" value="1"><span>Outside only</span></label>
-            <label class="chip"><input type="radio" name="heroSides" value="2" checked><span>Inside and outside</span></label>
+            <label class="chip"><input type="radio" name="heroSides" value="1" checked><span>Outside only</span></label>
+            <label class="chip"><input type="radio" name="heroSides" value="2"><span>Inside and outside</span></label>
           </div>
         </div>
         <div class="sf-row">
@@ -828,7 +828,7 @@ const QUOTE_SMS   = '+16035839928';
 // What the estimator shows before the visitor touches anything: a small
 // example storefront, so the first thing they see is a real price, not $0.
 const DEFAULTS = {
-  pieces: 6, doors: 1, sides: 2,          // sides: 1 = outside only, 2 = inside and outside
+  pieces: 6, doors: 1, sides: 1,          // sides: 1 = outside only (the starting choice), 2 = inside and outside
   hwPanes: 0, hwDoors: 0, screens: 0, tracks: 0,
   freq: 'One-time', first: true           // "not cleaned by us in the last 6 months": true for most website visitors, so the box starts ticked
 };
