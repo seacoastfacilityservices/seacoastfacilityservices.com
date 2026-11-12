@@ -75,7 +75,7 @@
     2. BASE STYLES         — resets, typography, buttons, focus states
     3. COMPONENT STYLES    — header, hero + storefront, price list, steps,
                              estimate tool, about, area, FAQ, contact, footer,
-                             mobile action bar, legal dialogs
+                             legal dialogs
     4. HTML — HEADER
     5. HTML — HERO (with the live storefront estimator)
     6. HTML — WHY US
@@ -86,7 +86,7 @@
    11. HTML — SERVICE AREA
    12. HTML — FAQ
    13. HTML — CONTACT / FOOTER
-   14. HTML — MOBILE ACTION BAR, LEGAL DIALOGS
+   14. HTML — LEGAL DIALOGS
    15. JAVASCRIPT — PRICING CONSTANTS  (<-- change your rates here)
    16. JAVASCRIPT — ESTIMATE STATE + PRICING MATH
    17. JAVASCRIPT — STOREFRONT DRAWING
@@ -612,27 +612,13 @@
   .footer-legal button{font:inherit;color:rgba(255,255,255,.62);background:none;border:none;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
   .footer-legal button:hover{color:#fff;}
 
-  /* ---- mobile action bar: call / text / price always one thumb away ---- */
-  .action-bar{display:none;}
+  /* ---- phones: the top bar slides away while scrolling down and comes back
+     when scrolling up (see section 21). There is no bottom button bar. ---- */
   @media (max-width:700px){
-    .action-bar{
-      display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:8px;
-      position:fixed;left:0;right:0;bottom:0;z-index:45;
-      padding:10px 12px calc(10px + env(safe-area-inset-bottom));
-      background:var(--header-bg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-      border-top:1px solid var(--border-c);
-    }
-    .action-bar .btn{padding:12px 8px;font-size:14.5px;white-space:nowrap;border-radius:10px;}
-    /* Call and Text live in the action bar on phones, so the hero skips its
-       own copies and the storefront estimator moves up the screen. */
-    .hero-actions{display:none;}
-    body{padding-bottom:calc(68px + env(safe-area-inset-bottom));}
-    body.menu-open .action-bar{display:none;}
-    /* both bars slide away while scrolling down, back when scrolling up (see section 21) */
-    .site-header, .action-bar{transition:transform .25s ease;}
+    .site-header{transition:transform .25s ease;}
     body.chrome-hidden .site-header{transform:translateY(-100%);}
-    body.chrome-hidden .action-bar{transform:translateY(100%);}
     .section{padding:60px 0;}
+    .hero-actions .btn{flex:1 1 auto;}
   }
 
   /* ---- legal dialogs (native <dialog>: Esc, focus trap and backdrop built in) ---- */
@@ -1376,16 +1362,8 @@
 </footer>
 
 <!-- ==========================================================================
-     14. MOBILE ACTION BAR, LEGAL DIALOGS
+     14. LEGAL DIALOGS
      ========================================================================== -->
-
-<!-- Phones only (see the CSS): the three things a customer actually wants,
-     always within thumb reach. -->
-<nav class="action-bar" aria-label="Quick contact">
-  <a class="btn btn-outline" href="tel:+16035839928">Call</a>
-  <a class="btn btn-outline" href="sms:+16035839928">Text</a>
-  <a class="btn btn-primary" href="#quote">My estimate</a>
-</nav>
 
 <!-- Privacy Policy. Written to describe exactly what this site does, not a
      generic template. Update this if the site's behavior ever changes. -->
@@ -1984,10 +1962,10 @@ document.addEventListener('keydown', function(e){
 });
 window.addEventListener('resize', function(){ if (window.innerWidth > 990 && !mobileMenu.hidden) setMenu(false); });
 
-/* On phones, the top bar and the bottom Call / Text / My estimate bar slide
-   out of the way while the visitor scrolls down, and come back the moment
-   they scroll up (or reach the top). The CSS that moves them only applies
-   at phone widths, so this does nothing on tablets and desktops. */
+/* On phones, the top bar slides out of the way while the visitor scrolls
+   down, and comes back the moment they scroll up (or reach the top). The CSS
+   that moves it only applies at phone widths, so this does nothing on
+   tablets and desktops. */
 (function(){
   let lastY = Math.max(0, window.scrollY), ticking = false;
   function setHidden(hidden){ document.body.classList.toggle('chrome-hidden', hidden); }
@@ -2004,9 +1982,9 @@ window.addEventListener('resize', function(){ if (window.innerWidth > 990 && !mo
   window.addEventListener('scroll', function(){
     if (!ticking){ ticking = true; requestAnimationFrame(update); }
   }, { passive: true });
-  // keyboard users tabbing into either bar bring it back
+  // keyboard users tabbing into the top bar bring it back
   document.addEventListener('focusin', function(e){
-    if (e.target.closest && e.target.closest('.site-header, .action-bar')) setHidden(false);
+    if (e.target.closest && e.target.closest('.site-header')) setHidden(false);
   });
 })();
 
