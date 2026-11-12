@@ -685,7 +685,7 @@
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Glass door cleaning" },
         "priceSpecification": { "@type": "UnitPriceSpecification", "price": "5.00", "priceCurrency": "USD", "unitText": "door, per side" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Hard water and mineral stain restoration" },
-        "priceSpecification": { "@type": "UnitPriceSpecification", "price": "20.00", "priceCurrency": "USD", "unitText": "pane" } },
+        "priceSpecification": { "@type": "UnitPriceSpecification", "price": "15.00", "priceCurrency": "USD", "unitText": "pane" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Screen cleaning" },
         "priceSpecification": { "@type": "UnitPriceSpecification", "price": "5.00", "priceCurrency": "USD", "unitText": "screen" } },
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Track and channel cleaning" },
@@ -997,8 +997,8 @@
         </li>
         <li>
           <h3>Hard water and mineral restoration</h3>
-          <span class="price"><span data-price="hardWater">$20</span> <small>per pane</small></span>
-          <p>Chemical treatment and scraping for mineral staining and hard-water spotting that a standard clean won't touch.</p>
+          <span class="price"><span data-price="hardWater">$15</span> <small>per pane</small></span>
+          <p>Chemical treatment and scraping for mineral staining and hard-water spotting that a standard clean won't touch. Stained glass doors are <span data-price="hardWaterDoor">$25</span> per side.</p>
         </li>
         <li>
           <h3>Screen cleaning</h3>
@@ -1449,9 +1449,9 @@
    ============================================================================ */
 const PRICE = {
   pane:      3.00,   // standard clean, one side, per pane
-  hardWater: 20.00,  // chemical treatment / scraping, per pane
+  hardWater: 15.00,  // hard water restoration (chemical treatment / scraping), per stained pane
+  hardWaterDoor: 25.00, // hard water restoration on a glass door, per stained side
   door:      5.00,   // glass door, standard clean, per side (its own price: no longer tied to the pane rate)
-  doorMult:  2,      // hard water only: a stained door side counts as this many stained panes
   screen:    5.00,   // removal, clean, re-hang, each
   track:     5.00,   // track and channel debris, per window
   jobMin:    50.00,  // minimum for a visit on any recurring schedule
@@ -1532,7 +1532,7 @@ function priceQuote(q){
   const stdFinal = afterDisc + surchargeAmt;
 
   const hwPanesCost = q.hwPanes * PRICE.hardWater;
-  const hwDoorsCost = q.hwDoors * PRICE.hardWater * PRICE.doorMult;
+  const hwDoorsCost = q.hwDoors * PRICE.hardWaterDoor;
   const hwSubtotal  = hwPanesCost + hwDoorsCost;
 
   const screensCost = q.screens * PRICE.screen;

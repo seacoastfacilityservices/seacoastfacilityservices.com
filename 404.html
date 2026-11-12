@@ -787,9 +787,9 @@
    ============================================================================ */
 const PRICE = {
   pane:      3.00,   // standard clean, one side, per pane
-  hardWater: 20.00,  // chemical treatment / scraping, per pane
+  hardWater: 15.00,  // hard water restoration (chemical treatment / scraping), per stained pane
+  hardWaterDoor: 25.00, // hard water restoration on a glass door, per stained side
   door:      5.00,   // glass door, standard clean, per side (its own price: no longer tied to the pane rate)
-  doorMult:  2,      // hard water only: a stained door side counts as this many stained panes
   screen:    5.00,   // removal, clean, re-hang, each
   track:     5.00,   // track and channel debris, per window
   jobMin:    50.00,  // minimum for a visit on any recurring schedule
@@ -870,7 +870,7 @@ function priceQuote(q){
   const stdFinal = afterDisc + surchargeAmt;
 
   const hwPanesCost = q.hwPanes * PRICE.hardWater;
-  const hwDoorsCost = q.hwDoors * PRICE.hardWater * PRICE.doorMult;
+  const hwDoorsCost = q.hwDoors * PRICE.hardWaterDoor;
   const hwSubtotal  = hwPanesCost + hwDoorsCost;
 
   const screensCost = q.screens * PRICE.screen;
