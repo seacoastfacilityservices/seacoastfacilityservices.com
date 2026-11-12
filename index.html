@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- viewport-fit=cover tells Chrome on Android (135+) that this page can draw
+     all the way to the bottom edge of the phone, so Chrome doesn't add its
+     own solid strip ("the chin") behind the gesture bar. The safe-area
+     padding in the CSS keeps content clear of notches on iPhones. -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <!--
   CONTENT SECURITY POLICY — delivered via <meta> because this is a static
   site with no server to send real HTTP headers. Browsers ignore
@@ -198,7 +202,7 @@
   h1,h2,h3{font-family:var(--display);color:var(--heading);margin:0 0 .5em;line-height:1.15;letter-spacing:-.015em;}
   h2{font-weight:700;font-size:clamp(26px,3.4vw,36px);}
   h3{font-weight:600;font-size:18px;letter-spacing:-.005em;}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left));}
   .section{padding:84px 0;}
   .alt-bg{background:var(--bg-alt);}
   .section-head{max-width:620px;margin:0 0 40px;}
@@ -247,7 +251,7 @@
     background:var(--header-bg);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     border-bottom:1px solid var(--border-c);
   }
-  .header-row{display:flex;align-items:center;justify-content:space-between;height:100%;padding:0 24px;gap:16px;max-width:1280px;margin:0 auto;}
+  .header-row{display:flex;align-items:center;justify-content:space-between;height:100%;padding:0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left));gap:16px;max-width:1280px;margin:0 auto;}
   .brand{display:flex;align-items:center;gap:10px;border-radius:8px;flex:none;}
   .brand img.icon-for-dark, .brand img.logo-for-dark{display:none;}
   :root[data-theme="dark"] .brand img.icon-for-light,
@@ -600,7 +604,7 @@
   .contact-panel > *{min-width:0;}
 
   /* ---- footer ---- */
-  .site-footer{background:var(--navy);color:rgba(255,255,255,.78);padding:48px 0 28px;}
+  .site-footer{background:var(--navy);color:rgba(255,255,255,.78);padding:48px 0 calc(28px + env(safe-area-inset-bottom));}
   .footer-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:26px;padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,.14);margin-bottom:22px;}
   .footer-logo{height:48px;width:auto;}
   .footer-links{display:flex;gap:10px 30px;flex-wrap:wrap;}
@@ -612,11 +616,12 @@
   .footer-legal button{font:inherit;color:rgba(255,255,255,.62);background:none;border:none;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
   .footer-legal button:hover{color:#fff;}
 
-  /* ---- phones: the top bar slides away while scrolling down and comes back
-     when scrolling up (see section 21). There is no bottom button bar. ---- */
+  /* ---- phones: the top bar is an ordinary part of the page. It scrolls away
+     with the content and is there again at the top. No script moves it, so
+     it can't jump or flash when the browser's own address bar slides. ---- */
   @media (max-width:700px){
-    .site-header{transition:transform .25s ease;}
-    body.chrome-hidden .site-header{transform:translateY(-100%);}
+    html{scroll-padding-top:12px;}
+    .site-header{position:relative;}
     .section{padding:60px 0;}
     .hero-actions .btn{flex:1 1 auto;}
   }
@@ -1951,7 +1956,8 @@ const mobileMenu = document.getElementById('mobileMenu');
 function setMenu(open){
   mobileMenu.hidden = !open;
   navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-  if (open) document.body.classList.remove('chrome-hidden');
+  // On phones the top bar scrolls with the page, so jump to the top before the menu drops down under it.
+  if (open && window.matchMedia('(max-width: 700px)').matches) window.scrollTo(0, 0);
   document.body.classList.toggle('menu-open', open);
   document.body.style.overflow = open ? 'hidden' : '';
 }
@@ -1961,32 +1967,6 @@ document.addEventListener('keydown', function(e){
   if (e.key === 'Escape' && !mobileMenu.hidden){ setMenu(false); navToggle.focus(); }
 });
 window.addEventListener('resize', function(){ if (window.innerWidth > 990 && !mobileMenu.hidden) setMenu(false); });
-
-/* On phones, the top bar slides out of the way while the visitor scrolls
-   down, and comes back the moment they scroll up (or reach the top). The CSS
-   that moves it only applies at phone widths, so this does nothing on
-   tablets and desktops. */
-(function(){
-  let lastY = Math.max(0, window.scrollY), ticking = false;
-  function setHidden(hidden){ document.body.classList.toggle('chrome-hidden', hidden); }
-  function update(){
-    ticking = false;
-    const maxY = document.documentElement.scrollHeight - window.innerHeight;
-    const y = Math.min(Math.max(0, window.scrollY), Math.max(0, maxY));   // ignore rubber-band overscroll
-    if (!mobileMenu.hidden || y < 80) setHidden(false);
-    else if (y > lastY + 6) setHidden(true);
-    else if (y < lastY - 6) setHidden(false);
-    else return;                                                          // tiny jitters change nothing
-    lastY = y;
-  }
-  window.addEventListener('scroll', function(){
-    if (!ticking){ ticking = true; requestAnimationFrame(update); }
-  }, { passive: true });
-  // keyboard users tabbing into the top bar bring it back
-  document.addEventListener('focusin', function(e){
-    if (e.target.closest && e.target.closest('.site-header')) setHidden(false);
-  });
-})();
 
 /* Theme: the attribute is set in <head> before first paint; this handles clicks. */
 document.querySelectorAll('[data-theme-toggle]').forEach(function(btn){
